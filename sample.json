@@ -1,0 +1,9 @@
+{
+  "sensors": {
+    "TDS": 500,
+    "hardness": 1,
+    "pH": 7,
+    "temperature": 1,
+    "turbidity": 1
+  }
+}

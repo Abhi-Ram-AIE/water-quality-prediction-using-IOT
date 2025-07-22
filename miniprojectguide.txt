@@ -1,0 +1,65 @@
+
+Firebase to MySQL:
+waterquality->firebase-to-mysql->index.js
+run:node index.js
+
+MySQL to FrontEnd:
+
+waterQuality->sensor-backend->server.js
+run:node server.js
+
+All components in waterQuality src componets->
+
+firebase->projectsetting->real Database
+
+CREATE TABLE sensor_data_aggregated_by_date (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    date DATE NOT NULL,
+    avg_tds FLOAT,
+    avg_hardness FLOAT,
+    avg_ph FLOAT,
+    avg_temperature FLOAT,
+    avg_turbidity FLOAT,
+    UNIQUE KEY (date)
+);
+INSERT INTO sensor_data_aggregated_by_date (date, avg_tds, avg_hardness, avg_ph, avg_temperature, avg_turbidity)
+SELECT 
+    DATE(timestamp) AS date,
+    AVG(tds) AS avg_tds,
+    AVG(hardness) AS avg_hardness,
+    AVG(ph) AS avg_ph,
+    AVG(temperature) AS avg_temperature,
+    AVG(turbidity) AS avg_turbidity
+FROM sensor_data
+GROUP BY DATE(timestamp);
+DELIMITER $$
+
+CREATE TRIGGER update_aggregated_data_after_insert
+AFTER INSERT ON sensor_data
+FOR EACH ROW
+BEGIN
+    DECLARE avg_tds FLOAT;
+    DECLARE avg_hardness FLOAT;
+    DECLARE avg_ph FLOAT;
+    DECLARE avg_temperature FLOAT;
+    DECLARE avg_turbidity FLOAT;
+
+    -- Calculate the new average for the specific date
+    SELECT 
+        AVG(tds), AVG(hardness), AVG(ph), AVG(temperature), AVG(turbidity)
+    INTO avg_tds, avg_hardness, avg_ph, avg_temperature, avg_turbidity
+    FROM sensor_data
+    WHERE DATE(timestamp) = DATE(NEW.timestamp);
+
+    -- Insert or update the aggregated data in the second table
+    INSERT INTO sensor_data_aggregated_by_date (date, avg_tds, avg_hardness, avg_ph, avg_temperature, avg_turbidity)
+    VALUES (DATE(NEW.timestamp), avg_tds, avg_hardness, avg_ph, avg_temperature, avg_turbidity)
+    ON DUPLICATE KEY UPDATE
+        avg_tds = avg_tds,
+        avg_hardness = avg_hardness,
+        avg_ph = avg_ph,
+        avg_temperature = avg_temperature,
+        avg_turbidity = avg_turbidity;
+END$$
+
+DELIMITER ;

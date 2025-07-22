@@ -1,0 +1,61 @@
+/* Ensure no scrolling on the entire page */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevents scrolling on the entire page */
+  font-family: Arial, sans-serif;
+  background-image: url("../public/p4.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Main app container to manage layout */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 0px;
+}
+
+/* Fixed header */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px; /* Adjust based on your design */
+  padding: 0px;
+  background-color: white;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Fixed footer */
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 0px;
+  height: 20px; /* Adjust based on your design */
+  background-color: white;
+  z-index: 1000;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Scrollable content area */
+.content-container {
+  flex-grow: 1;
+  margin-top: 60px; /* Matches header height */
+  margin-bottom: 40px; /* Matches footer height */
+  overflow-y: auto; /* Ensures only content is scrollable */
+  padding: 10px;
+  height: calc(100vh - 100px); /* Adjusts for header & footer */
+  scrollbar-width: none; /* Hides scrollbar in Firefox */
+  -ms-overflow-style: none; /* Hides scrollbar in IE/Edge */
+}
+
+/* Hide scrollbar for Webkit browsers */
+.content-container::-webkit-scrollbar {
+  display: none;
+}
