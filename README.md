@@ -90,4 +90,4 @@ Water Quality Prediction is an IoT-based system that integrates hardware sensors
 
 Developed by **Hrudhay, Santosh and myself** during undergraduate studies, demonstrating skills in IoT, cloud integration, machine learning, and modern web technologies.
 
-Visit my [Portfolio](https://abhiramgobburiportfolio.netlify.app/), [LinkedIn](https://linkedin.com/in/abhiramgobburi), or [GitHub](https://github.com/Abhi-Ram-AIE) for more information.
+Visit my [Portfolio](https://abhiramgobburiportfolio.netlify.app/), [LinkedIn](https://linkedin.com/in/abhiramgobburi) for more information.
